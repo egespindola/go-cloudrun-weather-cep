@@ -1,0 +1,2 @@
+### GET 
+curl http://localhost:3000/cep/01001000

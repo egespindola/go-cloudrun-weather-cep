@@ -12,6 +12,9 @@ import (
 )
 
 var zipcodePattern = regexp.MustCompile(`^[0-9]{8}$`)
+var ERR_INVALID_ZIPCODE = errors.New("invalid zipcode")
+var ERR_ZIPCODE_NOT_FOUND = errors.New("zipcode not found")
+var ERR_INTERNAL_SERVER_ERROR = errors.New("internal server error")
 
 func CepHandler(c *gin.Context) {
 	var response TemperatureResponse
@@ -19,7 +22,7 @@ func CepHandler(c *gin.Context) {
 	zipcode := c.Param("zipcode")
 
 	if !zipcodePattern.MatchString(zipcode) {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "invalid zipcode"})
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": ERR_INVALID_ZIPCODE.Error()})
 		return
 	}
 
@@ -30,7 +33,7 @@ func CepHandler(c *gin.Context) {
 	location, err := cepService.GetLocationByCep(zipcode)
 	if err != nil {
 		if errors.Is(err, cep.ErrZipcodeNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"message": "zipcode not found"})
+			c.JSON(http.StatusNotFound, gin.H{"message": ERR_ZIPCODE_NOT_FOUND.Error()})
 			return
 		}
 
@@ -43,7 +46,7 @@ func CepHandler(c *gin.Context) {
 	weather, err := weatherService.GetWeatherByCoordinates(location.Location.Coordinates.Latitude, location.Location.Coordinates.Longitude)
 	if err != nil {
 		log.Printf("error getting temperature for zipcode %s: %v", zipcode, err)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": ERR_INTERNAL_SERVER_ERROR.Error()})
 		return
 	}
 

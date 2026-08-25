@@ -3,7 +3,7 @@
 Receives a Brazilian zipcode (CEP), looks up its location, and returns the current
 weather at that location in Celsius, Fahrenheit, and Kelvin.
 
-Published on Google Cloud Run: [googlecloud-get-weather](gcr.io/smiling-accord-506603-j3/cloudrun-cep)
+Published on Google Cloud Run: [googlecloud-get-weather](https://weatherapi-328385283436.southamerica-east1.run.app/cep/01001000)
 
 ## Requirements
 

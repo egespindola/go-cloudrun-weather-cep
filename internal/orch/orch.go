@@ -13,7 +13,7 @@ import (
 
 var zipcodePattern = regexp.MustCompile(`^[0-9]{8}$`)
 var ERR_INVALID_ZIPCODE = errors.New("invalid zipcode")
-var ERR_ZIPCODE_NOT_FOUND = errors.New("zipcode not found")
+var ERR_ZIPCODE_NOT_FOUND = errors.New("can not find zipcode")
 var ERR_INTERNAL_SERVER_ERROR = errors.New("internal server error")
 
 func CepHandler(c *gin.Context) {
